@@ -27,7 +27,7 @@
 #include <string>
 
 #include "SDL2/SDL.h"
-#include "GL/gl3w.h"
+#include "GL/glew.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"

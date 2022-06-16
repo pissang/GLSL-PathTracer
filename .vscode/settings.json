@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.essl": "glsl",
+        "*.tmpl": "html",
+        "iostream": "cpp"
+    }
+}
