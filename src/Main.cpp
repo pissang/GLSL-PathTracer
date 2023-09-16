@@ -277,6 +277,10 @@ void MainLoop(void* arg)
             if (event.window.event == SDL_WINDOWEVENT_RESIZED)
             {
                 renderOptions.windowResolution = iVec2(event.window.data1, event.window.data2);
+                int w, h;
+                SDL_GL_GetDrawableSize(loopdata.mWindow, &w, &h);
+                renderOptions.windowResolution.x = w;
+                renderOptions.windowResolution.y = h;
 
                 if (!renderOptions.independentRenderSize)
                     renderOptions.renderResolution = renderOptions.windowResolution;
@@ -323,6 +327,10 @@ void MainLoop(void* arg)
             LoadScene(sceneFiles[sampleSceneIdx]);
             SDL_RestoreWindow(loopdata.mWindow);
             SDL_SetWindowSize(loopdata.mWindow, renderOptions.windowResolution.x, renderOptions.windowResolution.y);
+            int w, h;
+            SDL_GL_GetDrawableSize(loopdata.mWindow, &w, &h);
+            renderOptions.windowResolution.x = w;
+            renderOptions.windowResolution.y = h;
             InitRenderer();
         }
 
@@ -593,6 +601,12 @@ int main(int argc, char** argv)
     SDL_GetCurrentDisplayMode(0, &current);
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     loopdata.mWindow = SDL_CreateWindow("GLSL PathTracer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, renderOptions.windowResolution.x, renderOptions.windowResolution.y, window_flags);
+
+    // Query actual drawable window size
+    int w, h;
+    SDL_GL_GetDrawableSize(loopdata.mWindow, &w, &h);
+    renderOptions.windowResolution.x = w;
+    renderOptions.windowResolution.y = h;
 
     SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
 

@@ -30,7 +30,6 @@ file(GLOB_RECURSE EXT_FILES
     ${CMAKE_SOURCE_DIR}/thirdparty/imguizmo/*.cpp
     ${CMAKE_SOURCE_DIR}/thirdparty/RadeonRays/*.h
     ${CMAKE_SOURCE_DIR}/thirdparty/RadeonRays/*.cpp
-    # ${CMAKE_SOURCE_DIR}/thirdparty/gl3w/GL/*.c
     ${CMAKE_SOURCE_DIR}/thirdparty/oidn/*.h
     ${CMAKE_SOURCE_DIR}/thirdparty/oidn/*.hpp
     ${CMAKE_SOURCE_DIR}/thirdparty/tinydir/*.h
@@ -38,11 +37,21 @@ file(GLOB_RECURSE EXT_FILES
     ${CMAKE_SOURCE_DIR}/thirdparty/tinygltf/*.h
 )
 
+if(APPLE)
+list(APPEND EXT_FILES ${CMAKE_SOURCE_DIR}/thirdparty/gl3wApple/GL/gl3w.c)
+else()
+list(APPEND EXT_FILES ${CMAKE_SOURCE_DIR}/thirdparty/gl3w/GL/gl3w.c)
+endif()
+
 set(SRCS ${SRC_FILES} ${EXT_FILES} ${SHADERS})
 
+if(APPLE)
+find_package(SDL2 REQUIRED)
+else()
 set(SDL2_LIBRARIES "SDL2" "SDL2main")
 set(SDL2_INCLUDE_DIRS  ${CMAKE_SOURCE_DIR}/thirdparty/SDL2/include)
-set(SDL2_LIBDIR ${CMAKE_SOURCE_DIR}/thirdparty/SDL2/lib)
+set(SDL2_LIBDIR ${CMAKE_SOURCE_DIR}/thirdparty/SDL2/lib/x64)
+endif()
 set(OIDN_LIBRARIES "OpenImageDenoise")
 set(OIDN_LIBDIR ${CMAKE_SOURCE_DIR}/thirdparty/oidn/lib)
 set(SYS_INCLUDE_DIRS /usr/local/include)
@@ -56,7 +65,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/thirdparty/imgui
     ${CMAKE_SOURCE_DIR}/thirdparty/glew/include
     ${CMAKE_SOURCE_DIR}/thirdparty/stb
-    # ${CMAKE_SOURCE_DIR}/thirdparty/gl3w
     ${CMAKE_SOURCE_DIR}/thirdparty/imguizmo
     ${CMAKE_SOURCE_DIR}/thirdparty/RadeonRays
     ${CMAKE_SOURCE_DIR}/thirdparty/tinydir
@@ -66,6 +74,12 @@ include_directories(
     ${SDL2_INCLUDE_DIRS}
     ${SYS_INCLUDE_DIRS}
 )
+
+if(APPLE)
+include_directories(${CMAKE_SOURCE_DIR}/thirdparty/gl3wApple)
+else()
+include_directories(${CMAKE_SOURCE_DIR}/thirdparty/gl3w)
+endif()
 
 link_directories(
   ${SDL2_LIBDIR}

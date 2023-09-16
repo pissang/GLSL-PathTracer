@@ -1,20 +1,17 @@
 Instructions for building:
 
-  * brew install sdl2 glew
-
-  * Download oidn-1.3.0.x86_64.macos
+  * brew install sdl2 open-image-denoise
 
   * git clone https://github.com/knightcrawler25/GLSL-PathTracer.git
 
-  * cd GLSL-PathTracer
-
   * mkdir build
 
-  * cmake ..
+  * cd build
+
+  # You can also use -j to specify maximum number of concurrent processes to use when building.
+  * cmake build -DCMAKE_BUILD_TYPE=RELEASE ..
 
   * make
-
-  * cd build
 
   * To run the program: ./PathTracer
 
